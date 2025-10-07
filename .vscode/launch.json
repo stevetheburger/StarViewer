@@ -14,14 +14,29 @@
             "type": "java",
             "name": "cProgram",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f"
+        },
+        {
+            "type": "java",
+            "name": "Launch StarViewerApp",
+            "request": "launch",
+            "mainClass": "UI.StarViewerApp",
+            "modulePaths": ["C:\\Program Files\\JavaFX\\javafx-sdk-25\\lib"],
+            "vmArgs": [
+                "--module-path", "C:\\Program Files\\JavaFX\\javafx-sdk-25\\lib",
+                "--add-modules", "javafx.controls,javafx.fxml"
+            ],
+            "classPaths": [
+                "${workspaceFolder}",
+                "C:\\Program Files\\JavaFX\\javafx-sdk-25\\lib\\*"
+            ]
         },
         {
             "type": "java",
             "name": "cProgram on none",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\none_test.log -lvl none"
         },
@@ -29,7 +44,7 @@
             "type": "java",
             "name": "cProgram on warning",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\warning_test.log -lvl warning"
         },
@@ -37,7 +52,7 @@
             "type": "java",
             "name": "cProgram on error",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\error_test.log -lvl error"
         },
@@ -45,7 +60,7 @@
             "type": "java",
             "name": "cProgram on debug",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\debug_test.log -lvl debug"
         },
@@ -53,7 +68,7 @@
             "type": "java",
             "name": "cProgram on info",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\info_test.log -lvl info"
         },
@@ -61,7 +76,7 @@
             "type": "java",
             "name": "cProgram on trace",
             "request": "launch",
-            "mainClass": "cProgram",
+            "mainClass": "Console.cProgram",
             "projectName": "Java Practice_e5ce757f",
             "args": "-log .\\temp\\logs\\trace_test.log -lvl trace"
         }

@@ -1,0 +1,13 @@
+{
+    "java.project.referencedLibraries": [
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.base.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.controls.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.fxml.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.graphics.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.media.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.swing.jar",
+        "C:/Program Files/JavaFX/javafx-sdk-25/lib/javafx.web.jar"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic",
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

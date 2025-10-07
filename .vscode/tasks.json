@@ -66,6 +66,44 @@
             ],
             "group": "none",
             "problemMatcher": []
+        },
+        {
+            "label": "Compile StarViewer with JavaFX",
+            "type": "shell",
+            "command": "javac",
+            "args": [
+                "-d", ".\\bin\\",
+                "-cp", "C:/Program Files/JavaFX/javafx-sdk-25/lib/*",
+                "--module-path", "C:/Program Files/JavaFX/javafx-sdk-25/lib",
+                "--add-modules", "javafx.controls,javafx.fxml",
+                "*.java", "Data/*.java", "Logging/*.java", "UI/*.java"
+            ],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Run StarViewer Application",
+            "type": "shell",
+            "command": "java",
+            "args": [
+                "-cp", ".;C:/Program Files/JavaFX/javafx-sdk-25/lib/*",
+                "--module-path", "C:/Program Files/JavaFX/javafx-sdk-25/lib",
+                "--add-modules", "javafx.controls,javafx.fxml",
+                "UI.StarViewerApp"
+            ],
+            "group": "test",
+            "dependsOn": "Compile StarViewer with JavaFX",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            }
         }
     ]
 }
