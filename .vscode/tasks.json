@@ -16,6 +16,30 @@
             "args": ["-cp", ".\\bin\\", "cProgram"],
             "group": "test",
             "dependsOn": "build"
+        },
+        {
+            "label": "run with args",
+            "type": "shell",
+            "command": "java",
+            "args": ["-cp", ".\\bin\\", "cProgram", "-log", ".\\logging\\test.log", "-lvl", "info"],
+            "group": "test",
+            "dependsOn": "build"
+        },
+        {
+            "label": "run help",
+            "type": "shell",
+            "command": "java",
+            "args": ["-cp", ".\\bin\\", "cProgram", "-help"],
+            "group": "test",
+            "dependsOn": "build"
+        },
+        {
+            "label": "run version",
+            "type": "shell",
+            "command": "java",
+            "args": ["-cp", ".\\bin\\", "cProgram", "-version"],
+            "group": "test",
+            "dependsOn": "build"
         }
     ]
 }

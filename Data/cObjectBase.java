@@ -2,7 +2,7 @@ package Data;
 
 public class cObjectBase 
 {
-    private String mName;
+    protected String mName;
 
     public cObjectBase(String name)
     {
