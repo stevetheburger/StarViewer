@@ -60,9 +60,9 @@
             "args": [
                 "-d",
                 ".\\docs\\",
-                "-sourcepath",
-                ".\\",
-                "*.java"
+                "cProgram.java",
+                ".\\Logging\\*.java",
+                ".\\Data\\*.java"
             ],
             "group": "none",
             "problemMatcher": []
