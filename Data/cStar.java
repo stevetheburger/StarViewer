@@ -5,23 +5,61 @@ import java.util.Random;
 
 import Logging.cLoggingBase;
 
+/**
+ * Represents a star system containing planets in the StarViewer application.
+ * This class extends cObjectBase to inherit naming functionality and manages
+ * a collection of planets orbiting the star. It supports various stellar
+ * classifications according to the Morgan-Keenan system.
+ * 
+ * @author Stephen Hyberger
+ * @version 1.0
+ */
 public class cStar extends cObjectBase
 {
+    /**
+     * Enumeration of stellar classification types based on the Morgan-Keenan system.
+     * Classifications are ordered from hottest to coolest stellar types.
+     */
     public enum eStarType
     {
+        /** O-type star: Very hot, blue, massive stars */
         kClassO, 
+        /** B-type star: Hot, blue-white stars */
         kClassB, 
+        /** A-type star: Hot, white stars */
         kClassA, 
+        /** F-type star: Yellow-white stars */
         kClassF, 
+        /** G-type star: Yellow stars like our Sun */
         kClassG, 
+        /** K-type star: Orange, cooler stars */
         kClassK, 
+        /** M-type star: Red, coolest main sequence stars */
         kClassM
     }
 
+    /**
+     * List of planets orbiting this star.
+     */
     private ArrayList<cPlanet> mPlanets;
+    
+    /**
+     * The stellar classification of this star.
+     */
     private eStarType mType;
+    
+    /**
+     * Logger instance for this star system.
+     */
     private cLoggingBase mLogger;
 
+    /**
+     * Constructs a star with the specified name and stellar type.
+     * Uses the standby logger as the default logger.
+     * 
+     * @param name the name of the star
+     * @param type the stellar classification of the star
+     */
     public cStar(String name, eStarType type)
     {
         super(name);
@@ -29,11 +67,26 @@ public class cStar extends cObjectBase
         mType = type;
         mLogger = cLoggingBase.GetStandbyLogger();
     }
+    
+    /**
+     * Constructs a star with the specified name and default type (G-class).
+     * Uses the standby logger as the default logger.
+     * 
+     * @param name the name of the star
+     */
     public cStar(String name) 
     {
         this(name, eStarType.kClassG);
         mLogger = cLoggingBase.GetStandbyLogger();
     }
+    
+    /**
+     * Constructs a star with the specified name, type, and logger.
+     * 
+     * @param name the name of the star
+     * @param type the stellar classification of the star
+     * @param logger the logger to use for this star system
+     */
     public cStar(String name, eStarType type, cLoggingBase logger)
     {
         super(name);
@@ -41,14 +94,23 @@ public class cStar extends cObjectBase
         mType = type;
         mLogger = logger;
     }
+    
+    /**
+     * Constructs a star with the specified name, default type (G-class), and logger.
+     * 
+     * @param name the name of the star
+     * @param logger the logger to use for this star system
+     */
     public cStar(String name, cLoggingBase logger)
     {
         this(name, eStarType.kClassG);
         mLogger = logger;
     }
 
-    //Methods to manipulate the array of planets.
-    //Method to clear all planets from the star.
+    /**
+     * Clears all planets from the star system.
+     * Also clears all moons from each planet before removing them.
+     */
     public void ClearPlanets()
     {
         mLogger.LogTrace("Clearing planets from system " + this.ToString());
@@ -58,7 +120,14 @@ public class cStar extends cObjectBase
         }
         mPlanets.clear();
     }
-    //Append a planet to the end of the array.
+    
+    /**
+     * Appends a planet to the end of the star system's planet list.
+     * If the planet is already in the system, a warning is logged but no exception is thrown.
+     * 
+     * @param planet the planet to add to the star system
+     * @throws IllegalArgumentException if the planet is null
+     */
     public void AddPlanet(cPlanet planet) throws IllegalArgumentException
     {
         if(planet != null)
@@ -82,7 +151,15 @@ public class cStar extends cObjectBase
         }
     }
 
-    //Insert a planet at a specific index in the array.
+    /**
+     * Inserts a planet at a specific index in the star system's planet list.
+     * If the planet is already in the system, a warning is logged but no exception is thrown.
+     * 
+     * @param planet the planet to add to the star system
+     * @param index the index at which to insert the planet
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     * @throws IllegalArgumentException if the planet is null
+     */
     public void AddPlanet(cPlanet planet, int index) throws IndexOutOfBoundsException, IllegalArgumentException
     {
         if(planet != null)
@@ -116,7 +193,13 @@ public class cStar extends cObjectBase
         }
     }
 
-    //Remove a planet from the array by reference.
+    /**
+     * Removes a planet from the star system by reference.
+     * If the planet is not in the system, a warning is logged but no exception is thrown.
+     * 
+     * @param planet the planet to remove from the star system
+     * @throws IllegalArgumentException if the planet is null
+     */
     public void RemovePlanet(cPlanet planet) throws IllegalArgumentException
     {
         if(planet != null)
@@ -140,7 +223,12 @@ public class cStar extends cObjectBase
         }
     }
 
-    //Remove a planet from the array by index.
+    /**
+     * Removes a planet from the star system by index.
+     * 
+     * @param index the index of the planet to remove
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public void RemovePlanet(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mPlanets.size())
@@ -156,7 +244,13 @@ public class cStar extends cObjectBase
         }
     }
 
-    //Get a reference to a planet at the specified index.
+    /**
+     * Gets a reference to a planet at the specified index.
+     * 
+     * @param index the index of the planet to retrieve
+     * @return the planet at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public cPlanet GetPlanet(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mPlanets.size())
@@ -172,25 +266,45 @@ public class cStar extends cObjectBase
         }
     }
 
-    //Get the number of planets in the system.
+    /**
+     * Gets the number of planets in the star system.
+     * 
+     * @return the count of planets orbiting this star
+     */
     public int GetPlanetCount()
     {
         mLogger.LogTrace("Getting planet count from system " + this.ToString());
         return mPlanets.size();
     }
 
+    /**
+     * Gets the stellar classification of this star.
+     * 
+     * @return the stellar type of this star
+     */
     public eStarType GetStarType()
     {
         mLogger.LogTrace("Getting type from system " + this.ToString());
         return mType;
     }
+    
+    /**
+     * Sets the stellar classification of this star.
+     * 
+     * @param type the new stellar type to set
+     */
     public void SetStarType(eStarType type)
     {
         mLogger.LogTrace("Setting type of system " + this.ToString() + " to " + type);
         mType = type;
     }
 
-    //String representation of the star. Gives name and type of star.
+    /**
+     * Returns a string representation of the star system with optional recursive details.
+     * 
+     * @param recursive if true, includes detailed information about all orbiting planets
+     * @return a string representation showing the star name, type, planet count, and optionally detailed planet information
+     */
     public String ToString(boolean recursive)
     {
         String strOut = "System: " + this.mName + " : " + this.mType + " (" +  this.mPlanets.size() + ")";
@@ -202,14 +316,25 @@ public class cStar extends cObjectBase
             } 
         }
         return strOut;
-    }  
+    }
+    
+    /**
+     * Returns a string representation of the star system without recursive details.
+     * 
+     * @return a basic string representation of the star system
+     */
     public String ToString()
     {
         return ToString(false);
     }
 
-    //Static methods. No logging available here.
-    //Get a random star type.
+    /**
+     * Gets a random stellar type using the provided random number generator.
+     * This is a static utility method that can be used without creating a star instance.
+     * 
+     * @param rand the random number generator to use
+     * @return a randomly selected stellar type
+     */
     public static eStarType GetRandomStarType(Random rand)
     {
         eStarType typeOut = eStarType.kClassG;
@@ -218,6 +343,13 @@ public class cStar extends cObjectBase
 
         return typeOut;
     }
+    
+    /**
+     * Gets a random stellar type using a new random number generator.
+     * This is a static utility method that can be used without creating a star instance.
+     * 
+     * @return a randomly selected stellar type
+     */
     public static eStarType GetRandomStarType()
     {
         eStarType typeOut = eStarType.kClassG;

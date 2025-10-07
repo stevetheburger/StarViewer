@@ -5,19 +5,52 @@ import java.util.Random;
 
 import Logging.cLoggingBase;
 
+/**
+ * Represents a planet with potential moons in the StarViewer application.
+ * This class extends cObjectBase to inherit naming functionality and manages
+ * a collection of moons orbiting the planet. It supports various planetary
+ * classifications based on composition and structure.
+ * 
+ * @author Stephen Hyberger
+ * @version 1.0
+ */
 public class cPlanet extends cObjectBase
 {
+    /**
+     * Enumeration of planetary types based on composition and structure.
+     */
     public enum ePlanetType
     {
+        /** Terrestrial planet: Rocky, Earth-like planets */
         kTerrestrial,
+        /** Gas giant: Large planets composed mainly of hydrogen and helium */
         kGasGiant,
+        /** Ice giant: Planets with significant amounts of water, methane, and ammonia ices */
         kIceGiant
     }
 
+    /**
+     * The classification type of this planet.
+     */
     private ePlanetType mType;
+    
+    /**
+     * List of moons orbiting this planet.
+     */
     private ArrayList<cPlanet> mMoons;
+    
+    /**
+     * Logger instance for this planet.
+     */
     private cLoggingBase mLogger;
 
+    /**
+     * Constructs a planet with the specified name and type.
+     * Uses the standby logger as the default logger.
+     * 
+     * @param name the name of the planet
+     * @param type the classification type of the planet
+     */
     public cPlanet(String name, ePlanetType type)
     {
         super(name);
@@ -25,11 +58,26 @@ public class cPlanet extends cObjectBase
         mMoons = new ArrayList<cPlanet>();
         mLogger = cLoggingBase.GetStandbyLogger();
     }
+    
+    /**
+     * Constructs a planet with the specified name and default type (Terrestrial).
+     * Uses the standby logger as the default logger.
+     * 
+     * @param name the name of the planet
+     */
     public cPlanet(String name) 
     { 
         this(name, ePlanetType.kTerrestrial); 
         mLogger = cLoggingBase.GetStandbyLogger();
     }
+    
+    /**
+     * Constructs a planet with the specified name, type, and logger.
+     * 
+     * @param name the name of the planet
+     * @param type the classification type of the planet
+     * @param logger the logger to use for this planet
+     */
     public cPlanet(String name, ePlanetType type, cLoggingBase logger)
     {
         super(name);
@@ -37,14 +85,23 @@ public class cPlanet extends cObjectBase
         mMoons = new ArrayList<cPlanet>();
         mLogger = logger;
     }
+    
+    /**
+     * Constructs a planet with the specified name, default type (Terrestrial), and logger.
+     * 
+     * @param name the name of the planet
+     * @param logger the logger to use for this planet
+     */
     public cPlanet(String name, cLoggingBase logger)
     {
         this(name, ePlanetType.kTerrestrial);
         mLogger = logger;
     }
 
-    //Methods to manipulate the array of planets.
-    //Method to clear all moons from the planet.
+    /**
+     * Clears all moons from the planet.
+     * Also recursively clears all moons from each moon before removing them.
+     */
     public void ClearMoons()
     {
         mLogger.LogTrace("Clearing moons from planet " + this.ToString());
@@ -54,7 +111,14 @@ public class cPlanet extends cObjectBase
         }
         mMoons.clear();
     }
-    //Append a moon to the end of the array.
+    
+    /**
+     * Appends a moon to the end of the planet's moon list.
+     * If the moon is already orbiting the planet, a warning is logged but no exception is thrown.
+     * 
+     * @param moon the moon to add to the planet
+     * @throws IllegalArgumentException if the moon is null
+     */
     public void AddMoon(cPlanet moon) throws IllegalArgumentException
     {
         if(moon != null)
@@ -78,7 +142,15 @@ public class cPlanet extends cObjectBase
         }
     }
 
-    //Insert a moon at a specific index in the array.
+    /**
+     * Inserts a moon at a specific index in the planet's moon list.
+     * If the moon is already orbiting the planet, a warning is logged but no exception is thrown.
+     * 
+     * @param moon the moon to add to the planet
+     * @param index the index at which to insert the moon
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     * @throws IllegalArgumentException if the moon is null
+     */
     public void AddMoon(cPlanet moon, int index) throws IndexOutOfBoundsException, IllegalArgumentException
     {
         if(moon != null)
@@ -112,7 +184,13 @@ public class cPlanet extends cObjectBase
         }
     }
 
-    //Remove a moon from the array by reference.
+    /**
+     * Removes a moon from the planet by reference.
+     * If the moon is not orbiting the planet, a warning is logged but no exception is thrown.
+     * 
+     * @param moon the moon to remove from the planet
+     * @throws IllegalArgumentException if the moon is null
+     */
     public void RemoveMoon(cPlanet moon) throws IllegalArgumentException
     {
         if(moon != null)
@@ -136,7 +214,12 @@ public class cPlanet extends cObjectBase
         }
     }
 
-    //Remove a moon from the array by index.
+    /**
+     * Removes a moon from the planet by index.
+     * 
+     * @param index the index of the moon to remove
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public void RemoveMoon(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mMoons.size())
@@ -152,7 +235,13 @@ public class cPlanet extends cObjectBase
         }
     }
 
-    //Get a reference to a moon at the specified index.
+    /**
+     * Gets a reference to a moon at the specified index.
+     * 
+     * @param index the index of the moon to retrieve
+     * @return the moon at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public cPlanet GetMoon(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mMoons.size())
@@ -168,26 +257,45 @@ public class cPlanet extends cObjectBase
         }
     }
 
-    //Get the number of moons in the system.
+    /**
+     * Gets the number of moons orbiting the planet.
+     * 
+     * @return the count of moons orbiting this planet
+     */
     public int GetMoonCount()
     {
         mLogger.LogTrace("Getting moon count from planet " + this.ToString());
         return mMoons.size();
     }
 
-    //Get/Set the type of the planet.
+    /**
+     * Gets the classification type of the planet.
+     * 
+     * @return the planetary type of this planet
+     */
     public ePlanetType GetPlanetType()
     {
         mLogger.LogTrace("Getting type from planet " + this.ToString());
         return mType;
     }
+    
+    /**
+     * Sets the classification type of the planet.
+     * 
+     * @param type the new planetary type to set
+     */
     public void SetPlanetType(ePlanetType type)
     {
         mLogger.LogTrace("Setting type of planet " + this.ToString() + " to " + type);
         mType = type;
     }
 
-    //String representation of the planet. Gives name, type, and number of moons.
+    /**
+     * Returns a string representation of the planet with optional recursive details.
+     * 
+     * @param recursive if true, includes detailed information about all orbiting moons
+     * @return a string representation showing the planet name, type, moon count, and optionally detailed moon information
+     */
     public String ToString(boolean recursive)
     {
         String strOut = "Planet: " + this.mName + " : " + this.mType + " (" +  this.mMoons.size() + ")";
@@ -199,13 +307,24 @@ public class cPlanet extends cObjectBase
         }
         return strOut;
     }
+    
+    /**
+     * Returns a string representation of the planet without recursive details.
+     * 
+     * @return a basic string representation of the planet
+     */
     public String ToString()
     {
         return ToString(false);
     }
 
-    //Static methods. No logging available here.
-    //Get a random planet type.
+    /**
+     * Gets a random planetary type using the provided random number generator.
+     * This is a static utility method that can be used without creating a planet instance.
+     * 
+     * @param rand the random number generator to use
+     * @return a randomly selected planetary type
+     */
     public static ePlanetType GetRandomPlanetType(Random rand)
     {
         ePlanetType typeOut = ePlanetType.kTerrestrial;
@@ -215,6 +334,12 @@ public class cPlanet extends cObjectBase
         return typeOut;
     }
 
+    /**
+     * Gets a random planetary type using a new random number generator.
+     * This is a static utility method that can be used without creating a planet instance.
+     * 
+     * @return a randomly selected planetary type
+     */
     public static ePlanetType GetRandomPlanetType()
     {
         ePlanetType typeOut = ePlanetType.kTerrestrial;

@@ -4,25 +4,52 @@ import java.util.ArrayList;
 import java.util.Random;
 import Logging.cLoggingBase;
 
-//Represents a universe containing galaxies
+/**
+ * Represents a universe containing galaxies in the StarViewer application.
+ * This class manages a collection of galaxies and provides methods for adding, removing,
+ * and manipulating galaxies within the universe. It also includes functionality for
+ * generating random universes with specified parameters.
+ * 
+ * @author Stephen Hyberger
+ * @version 1.0
+ */
 public class cUniverse 
 {
+    /**
+     * List of galaxies contained in this universe.
+     */
     private ArrayList<cGalaxy> mGalaxies;
+    
+    /**
+     * Logger instance for this universe.
+     */
     private cLoggingBase mLogger;
 
-    //Basic constructor.
+    /**
+     * Constructs a new universe with an empty list of galaxies.
+     * Uses the standby logger as the default logger.
+     */
     public cUniverse()
     {
         mGalaxies = new ArrayList<cGalaxy>();
         mLogger = cLoggingBase.GetStandbyLogger();
     }
+    
+    /**
+     * Constructs a new universe with an empty list of galaxies and a specified logger.
+     * 
+     * @param logger the logger to use for this universe
+     */
     public cUniverse(cLoggingBase logger)
     {
         mGalaxies = new ArrayList<cGalaxy>();
         mLogger = logger;
     }
 
-    //Methods to manipulate the array of galaxies.
+    /**
+     * Clears all galaxies from the universe.
+     * Also clears all stars from each galaxy before removing them.
+     */
     public void ClearGalaxies()
     {
         for(cGalaxy g : mGalaxies)
@@ -31,7 +58,14 @@ public class cUniverse
         }
         mGalaxies.clear();
     }
-    //Append a galaxy to the end of the array.
+    
+    /**
+     * Appends a galaxy to the end of the universe's galaxy list.
+     * If the galaxy is already in the universe, a warning is logged but no exception is thrown.
+     * 
+     * @param galaxy the galaxy to add to the universe
+     * @throws IllegalArgumentException if the galaxy is null
+     */
     public void AddGalaxy(cGalaxy galaxy) throws IllegalArgumentException
     {
         if(galaxy != null)
@@ -55,7 +89,15 @@ public class cUniverse
         }
     }
 
-    //Insert a galaxy at a specific index in the array.
+    /**
+     * Inserts a galaxy at a specific index in the universe's galaxy list.
+     * If the galaxy is already in the universe, a warning is logged but no exception is thrown.
+     * 
+     * @param galaxy the galaxy to add to the universe
+     * @param index the index at which to insert the galaxy
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     * @throws IllegalArgumentException if the galaxy is null
+     */
     public void AddGalaxy(cGalaxy galaxy, int index) throws IndexOutOfBoundsException, IllegalArgumentException
     {
         if(galaxy != null)
@@ -88,7 +130,13 @@ public class cUniverse
         }
     }
 
-    //Remove a galaxy from the array by reference.
+    /**
+     * Removes a galaxy from the universe by reference.
+     * If the galaxy is not in the universe, a warning is logged but no exception is thrown.
+     * 
+     * @param galaxy the galaxy to remove from the universe
+     * @throws IllegalArgumentException if the galaxy is null
+     */
     public void RemoveGalaxy(cGalaxy galaxy) throws IllegalArgumentException
     {
         if(galaxy != null)
@@ -112,7 +160,12 @@ public class cUniverse
         }
     }
 
-    //Remove a galaxy from the array by index.
+    /**
+     * Removes a galaxy from the universe by index.
+     * 
+     * @param index the index of the galaxy to remove
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public void RemoveGalaxy(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mGalaxies.size())
@@ -128,7 +181,13 @@ public class cUniverse
         }
     }
 
-    //Get a reference to a galaxy at the specified index.
+    /**
+     * Gets a reference to a galaxy at the specified index.
+     * 
+     * @param index the index of the galaxy to retrieve
+     * @return the galaxy at the specified index
+     * @throws IndexOutOfBoundsException if the index is out of bounds
+     */
     public cGalaxy GetGalaxy(int index) throws IndexOutOfBoundsException
     {
         if(index >= 0 && index < mGalaxies.size())
@@ -144,14 +203,23 @@ public class cUniverse
         }
     }
 
-    //Get the number of galaxies in the universe.
+    /**
+     * Gets the number of galaxies in the universe.
+     * 
+     * @return the count of galaxies in this universe
+     */
     public int GetGalaxyCount()
     {
         mLogger.LogTrace("Getting galaxy count from universe: " + this.ToString(false));
         return mGalaxies.size();
     }
 
-    //String representation of the universe. Gives count of galaxies.
+    /**
+     * Returns a string representation of the universe with optional recursive details.
+     * 
+     * @param recursive if true, includes detailed information about all contained galaxies
+     * @return a string representation showing the galaxy count and optionally detailed galaxy information
+     */
     public String ToString(boolean recursive)
     {
         String strOut = "Universe: (" + this.mGalaxies.size() + ")\n";
@@ -164,11 +232,32 @@ public class cUniverse
         }
         return strOut;
     }
+    
+    /**
+     * Returns a string representation of the universe with full recursive details.
+     * 
+     * @return a detailed string representation of the universe and all its contents
+     */
     public String ToString()
     {
         return ToString(true);
     }
 
+    /**
+     * Generates a random universe with the specified parameters and seed.
+     * Clears any existing galaxies before generating new content.
+     * 
+     * @param seed the seed for random generation (0 for random seed)
+     * @param minGalaxies minimum number of galaxies to generate (must be >= 1)
+     * @param maxGalaxies maximum number of galaxies to generate (must be > minGalaxies)
+     * @param minStars minimum number of stars per galaxy (must be >= 1)
+     * @param maxStars maximum number of stars per galaxy (must be > minStars)
+     * @param minPlanets minimum number of planets per star (must be >= 1)
+     * @param maxPlanets maximum number of planets per star (must be > minPlanets)
+     * @param minMoons minimum number of moons per planet (must be >= 0)
+     * @param maxMoons maximum number of moons per planet (must be > minMoons)
+     * @throws IllegalArgumentException if any parameters are invalid
+     */
     public void RandomUniverse(long seed, int minGalaxies, int maxGalaxies, int minStars, int maxStars, int minPlanets, int maxPlanets, int minMoons, int maxMoons) throws IllegalArgumentException
     {
         //Validate parameters.
@@ -249,13 +338,30 @@ public class cUniverse
         mLogger.LogInfo("Universe generated");
     }
 
-    //A default random universe generator that does not take a seed. Will be very likely be different each time.
+    /**
+     * Generates a random universe with the specified parameters using a random seed.
+     * This is a convenience method that calls the seeded version with seed = 0.
+     * 
+     * @param minGalaxies minimum number of galaxies to generate (must be >= 1)
+     * @param maxGalaxies maximum number of galaxies to generate (must be > minGalaxies)
+     * @param minStars minimum number of stars per galaxy (must be >= 1)
+     * @param maxStars maximum number of stars per galaxy (must be > minStars)
+     * @param minPlanets minimum number of planets per star (must be >= 1)
+     * @param maxPlanets maximum number of planets per star (must be > minPlanets)
+     * @param minMoons minimum number of moons per planet (must be >= 0)
+     * @param maxMoons maximum number of moons per planet (must be > minMoons)
+     * @throws IllegalArgumentException if any parameters are invalid
+     */
     public void RandomUniverse(int minGalaxies, int maxGalaxies, int minStars, int maxStars, int minPlanets, int maxPlanets, int minMoons, int maxMoons) throws IllegalArgumentException
     {
         RandomUniverse(0, minGalaxies, maxGalaxies, minStars, maxStars, minPlanets, maxPlanets, minMoons, maxMoons);
     }
 
-    //Create a default random test universe.
+    /**
+     * Creates a default test universe with predefined parameters.
+     * Generates 2-3 galaxies, each with 9-16 star systems, 1-12 planets per system,
+     * and 0-6 moons per planet. Uses a deterministic seed based on the string "default".
+     */
     public void TestUniverse()
     {
         //Create two to three test galaxies. Create nine to sixteen test systems for each with one to twelve planets each, with optional 0-6 moons each.

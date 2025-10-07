@@ -2,21 +2,39 @@ import Data.*;
 import Logging.*;
 import Logging.cLoggingBase.eLogLevel;
 
+/**
+ * The main program class for StarViewer.
+ * This class handles command-line arguments, sets up logging, and initializes the universe.
+ * 
+ * @version 1.0
+ * @author Stephen Hyberger
+ */
 public class cProgram 
 {
+    /**
+     * The current version of the StarViewer application.
+     */
     public static final String VERSION = "v0.0.0";
 
+    /**
+     * The main entry point for the StarViewer application.
+     * Parses command-line arguments, sets up logging, and initializes the universe.
+     * 
+     * @param args command-line arguments
+     */
     public static void main(String[] args) 
     {
         cLoggingDecorator logger = null;
         eLogLevel lvl = eLogLevel.kWarning;
         String filepath = "";
 
+        //Parse command line arguments.
         if(args.length > 0)
         {
             for(int i = 0; i < args.length;)
             {
                 String arg = args[i];
+                //Get the log level from the console.
                 if(arg.equals("-lvl"))
                 {
                     if(i + 1 < args.length)
@@ -46,11 +64,13 @@ public class cProgram
                     }
                     i+=2;
                 }
+                //Get the log file path from the console.
                 else if(arg.equals("-log"))
                 {
-                    filepath= args[i + 1];
+                    filepath = args[i + 1];
                     i+=2;
                 }
+                //Print help message.
                 else if(arg.equals("-help"))
                 {
                     IO.println("StarViewer Help:");
@@ -62,6 +82,7 @@ public class cProgram
                     //Terminate after help message.
                     return;
                 }
+                //Print version message.
                 else if(arg.equals("-version"))
                 {
                     IO.println("StarViewer " + VERSION);
@@ -69,6 +90,7 @@ public class cProgram
                     //Terminate after version message.
                     return;
                 }
+                //Default case for unknown argument.
                 else
                 {
                     IO.println("Unknown argument: " + arg);
@@ -80,15 +102,20 @@ public class cProgram
             }
         }
 
+        //Setup logging.
+        cLoggingFile file_logger = null;
+
         if(!filepath.isEmpty())
         {
-            logger = new cLoggingConsole(new cLoggingFile(filepath, lvl), eLogLevel.kWarning);
+            file_logger = new cLoggingFile(filepath, lvl);
+            logger = new cLoggingConsole(file_logger, eLogLevel.kWarning);
         }
         else
         {
             logger = new cLoggingConsole(lvl);
         }
 
+        //Start program.
         IO.println("Starting StarViewer " + VERSION);
 
         cUniverse universe = new cUniverse(logger);
@@ -98,6 +125,12 @@ public class cProgram
 
         IO.println("Press any key to exit.");
         IO.readln();
+
+        //Close file if it was opened.
+        if(file_logger != null)
+        {
+            file_logger.Close();
+        }
 
         IO.println("Thank you for using StarViewer.\nGoodbye!");
     }
